@@ -8,22 +8,26 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
-  <script src="script.js"></script>
+  <script src="script.js" defer></script>
 </head>
 <body>
   <div class="container">
     <div class="background-circle"></div>
-    <div class="calc">
+    <div class="calc-container">
       <div class="calculator">
         <div class="display">
-          <div class="button clear">Clear</div>
+          <div class="button clear" title="AC">Clear</div>
+          <div class="screen">
+            <div class="inactive-area"></div>
+            <div class="active-area"></div>
+          </div>
         </div>
         <div class="keypad">
           <div class="top">
-            <div class="button circular grey">C</div>
+            <div class="button circular grey" id='delete' title="Delete">C</div>
             <div class="button circular grey" id="plus-minus">+/-</div>
             <div class="button circular grey">%</div>
-            <div class="button circular orange">÷</div>
+            <div class="button circular orange operator">÷</div>
           </div>
           <div class="bottom">
             <div class="numbers">
@@ -40,10 +44,10 @@
               <div class="button circular white">.</div>
             </div>
             <div class="operators">
-            <div class="button circular orange">✕</div>
-            <div class="button circular orange">-</div>
-            <div class="button circular orange">+</div>
-            <div class="button circular orange">=</div>
+            <div class="button circular orange operator">✕</div>
+            <div class="button circular orange operator">-</div>
+            <div class="button circular orange operator">+</div>
+            <div class="button circular orange" id="equals-button">=</div>
             </div>
           </div>
         </div>
