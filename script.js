@@ -11,6 +11,32 @@ const deleteButton = document.querySelector('#delete')
 const equalsButton = document.querySelector("#equals-button")
 activeDiv.innerText = 0;
 
+const OPERATORS = [
+  {
+    symbol: '+',
+    key: "+",
+    operation: () =>  firstOperand + secondOperand
+  },
+
+  {
+    symbol: '-',
+    key: '-',
+    operation: () => firstOperand - secondOperand
+  },
+
+  {
+    symbol: '✕',
+    key: "*",
+    operation: () => firstOperand * secondOperand
+  },
+
+  {
+    symbol: '÷',
+    key: "/",
+    operation: () => firstOperand / secondOperand
+  }
+]
+
 numbers.forEach(number => {
   number.addEventListener('mousedown', appendNum)
 });
@@ -19,7 +45,6 @@ operators.forEach(operator => {
   operator.addEventListener('mousedown', e => {
     firstOperand = parseInt(activeDiv.innerText);
     currentOperator = operator.innerText;
-    console.log(firstOperand)
     inactiveDiv.innerText = firstOperand + currentOperator;
     clear(activeDiv)
   })
@@ -45,3 +70,9 @@ function appendNum (e) {
   activeDiv.innerText += e.target.innerText;
 }
 
+equalsButton.addEventListener('click', () => {
+  const operator = OPERATORS.find(operator => operator.symbol === currentOperator);
+  secondOperand = parseInt(activeDiv.innerText);
+  inactiveDiv.innerText += secondOperand;
+  activeDiv.innerText = operator.operation();
+})
