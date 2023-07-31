@@ -1,4 +1,4 @@
-let firstOperand;
+let firstOperand = 0;
 let secondOperand;
 let currentOperator;
 const clearButton = document.querySelector('.clear');
@@ -24,10 +24,11 @@ numbers.forEach(number => {
 
 operators.forEach(operator => {
   operator.addEventListener('mousedown', e => {
-    if(activeDiv.innerText != undefined && !isNaN(parseInt(activeDiv.innerText))) {
-      firstOperand = parseInt(activeDiv.innerText);
+    if(activeDiv.innerText != undefined && !isNaN(parseFloat(activeDiv.innerText))) {
+      if(operatorPresent()) evalResult();
+      firstOperand = parseFloat(activeDiv.innerText);
       currentOperator = operator.innerText;
-      inactiveDiv.innerText = firstOperand + currentOperator;
+      inactiveDiv.innerText = activeDiv.innerText + currentOperator;
       clear(activeDiv)
     }
   })
@@ -53,26 +54,25 @@ function appendNum (e) {
   if(activeDiv.innerText.length <= 9) activeDiv.innerText += e.target.innerText;
 }
 
-equalsButton.addEventListener('click', () => {
-  const operator = findOperator(currentOperator);
-  if(operator) {
-    activeDiv.innerText = evalResult(operator);
-  }
-  currentOperator = undefined;
-})
+equalsButton.addEventListener('click', evalResult)
 
 function findOperator (op) {
   return OPERATORS.find(operator => operator.symbol === op);
 }
 
-function evalResult(operator) {
-  secondOperand = parseInt(activeDiv.innerText);
-  if(secondOperand != undefined && !isNaN(secondOperand)) {
-    inactiveDiv.innerText += secondOperand;
-    const result = operator.operation();
-    firstOperand = result;
-    return result;
+function evalResult() {
+  if(activeDiv.innerText == undefined || isNaN(parseFloat(activeDiv.innerText))){
+    activeDiv.innerText = firstOperand;
   }
+  const operator = findOperator(currentOperator);
+  if (operator) {
+    secondOperand = parseFloat(activeDiv.innerText);
+    inactiveDiv.innerText += activeDiv.innerText;
+    const result = operator.operation();
+    activeDiv.innerText = result;
+    firstOperand = result;
+  }
+  currentOperator = undefined;
 }
 
 const plusMinus = document.getElementById("plus-minus")
@@ -104,5 +104,13 @@ function divide() {
   if(secondOperand === 0) {
     return 'Error';
   }
- result = firstOperand / secondOperand; 
+ return firstOperand / secondOperand; 
 }
+
+function operatorPresent() {
+  return (inactiveDiv.innerText.includes('+')
+  || inactiveDiv.innerText.includes('-')
+  || inactiveDiv.innerText.includes("✕")
+  || inactiveDiv.innerText.includes("÷"))
+}
+
