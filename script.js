@@ -12,10 +12,10 @@ const equalsButton = document.querySelector("#equals-button")
 activeDiv.innerText = 0;
 
 const OPERATORS = [
-  {symbol: '+', key: "+", operation: () =>  firstOperand + secondOperand},
-  {symbol: '-', key: '-', operation: () => firstOperand - secondOperand},
-  {symbol: '✕', key: "*", operation: () => firstOperand * secondOperand},
-  {symbol: '÷', key: "/", operation: () => firstOperand / secondOperand},
+  {symbol: '+', key: "+", operation: add},
+  {symbol: '-', key: '-', operation: subtract},
+  {symbol: '✕', key: "*", operation: multiply},
+  {symbol: '÷', key: "/", operation: divide},
 ]
 
 numbers.forEach(number => {
@@ -24,10 +24,12 @@ numbers.forEach(number => {
 
 operators.forEach(operator => {
   operator.addEventListener('mousedown', e => {
-    firstOperand = parseInt(activeDiv.innerText);
-    currentOperator = operator.innerText;
-    inactiveDiv.innerText = firstOperand + currentOperator;
-    clear(activeDiv)
+    if(activeDiv.innerText != undefined && !isNaN(parseInt(activeDiv.innerText))) {
+      firstOperand = parseInt(activeDiv.innerText);
+      currentOperator = operator.innerText;
+      inactiveDiv.innerText = firstOperand + currentOperator;
+      clear(activeDiv)
+    }
   })
 });
 
@@ -65,9 +67,9 @@ function findOperator (op) {
 
 function evalResult(operator) {
   secondOperand = parseInt(activeDiv.innerText);
-  if(secondOperand) {
+  if(secondOperand != undefined && !isNaN(secondOperand)) {
     inactiveDiv.innerText += secondOperand;
-    const result = operator.operation()
+    const result = operator.operation();
     firstOperand = result;
     return result;
   }
@@ -83,3 +85,24 @@ function additiveInverse() {
     activeDiv.innerText = target;
   }
 } 
+
+
+
+function add() {
+  return firstOperand + secondOperand;
+}
+
+function subtract() {
+  return firstOperand - secondOperand;
+}
+
+function multiply() {
+  return firstOperand * secondOperand;
+}
+
+function divide() {
+  if(secondOperand === 0) {
+    return 'Error';
+  }
+ result = firstOperand / secondOperand; 
+}
