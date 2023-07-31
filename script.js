@@ -73,3 +73,13 @@ function evalResult(operator) {
   }
 }
 
+const plusMinus = document.getElementById("plus-minus")
+plusMinus.addEventListener('click', additiveInverse)
+
+function additiveInverse() {
+  let target = activeDiv.innerText;
+  if (target != 0) {
+    target *=  -1;
+    activeDiv.innerText = target;
+  }
+} 
