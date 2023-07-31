@@ -1,9 +1,9 @@
-let firstOperand = '';
-let secondOperand = '';
+let firstOperand;
+let secondOperand;
 let currentOperator;
 const clearButton = document.querySelector('.clear');
 const keypad = document.querySelector('.keypad');
-const numbers = document.querySelectorAll('.numbers > .button');
+const numbers = document.querySelectorAll('.number');
 const operators = document.querySelectorAll('.operator');
 const activeDiv = document.querySelector('.active-area');
 const inactiveDiv = document.querySelector('.inactive-area');
@@ -12,29 +12,10 @@ const equalsButton = document.querySelector("#equals-button")
 activeDiv.innerText = 0;
 
 const OPERATORS = [
-  {
-    symbol: '+',
-    key: "+",
-    operation: () =>  firstOperand + secondOperand
-  },
-
-  {
-    symbol: '-',
-    key: '-',
-    operation: () => firstOperand - secondOperand
-  },
-
-  {
-    symbol: '✕',
-    key: "*",
-    operation: () => firstOperand * secondOperand
-  },
-
-  {
-    symbol: '÷',
-    key: "/",
-    operation: () => firstOperand / secondOperand
-  }
+  {symbol: '+', key: "+", operation: () =>  firstOperand + secondOperand},
+  {symbol: '-', key: '-', operation: () => firstOperand - secondOperand},
+  {symbol: '✕', key: "*", operation: () => firstOperand * secondOperand},
+  {symbol: '÷', key: "/", operation: () => firstOperand / secondOperand},
 ]
 
 numbers.forEach(number => {
@@ -67,12 +48,28 @@ function del() {
 
 function appendNum (e) {
   if(activeDiv.innerText == 0) clear(activeDiv);
-  activeDiv.innerText += e.target.innerText;
+  if(activeDiv.innerText.length <= 9) activeDiv.innerText += e.target.innerText;
 }
 
 equalsButton.addEventListener('click', () => {
-  const operator = OPERATORS.find(operator => operator.symbol === currentOperator);
-  secondOperand = parseInt(activeDiv.innerText);
-  inactiveDiv.innerText += secondOperand;
-  activeDiv.innerText = operator.operation();
+  const operator = findOperator(currentOperator);
+  if(operator) {
+    activeDiv.innerText = evalResult(operator);
+  }
+  currentOperator = undefined;
 })
+
+function findOperator (op) {
+  return OPERATORS.find(operator => operator.symbol === op);
+}
+
+function evalResult(operator) {
+  secondOperand = parseInt(activeDiv.innerText);
+  if(secondOperand) {
+    inactiveDiv.innerText += secondOperand;
+    const result = operator.operation()
+    firstOperand = result;
+    return result;
+  }
+}
+
