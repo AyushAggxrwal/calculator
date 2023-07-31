@@ -117,6 +117,7 @@ function operatorPresent() {
 const point = document.getElementById('point')
 function appendPoint() {
   if(activeDiv.innerText.includes('.')) return;
+  if(activeDiv.innerText == '') activeDiv.innerText = 0;
   activeDiv.innerText += '.'
 }
 point.addEventListener('click', appendPoint)
