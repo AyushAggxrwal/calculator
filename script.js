@@ -50,7 +50,7 @@ function del() {
 }
 
 function appendNum (e) {
-  if(activeDiv.innerText == 0) clear(activeDiv);
+  if(parseFloat(activeDiv.innerText) === 0) clear(activeDiv);
   if(activeDiv.innerText.length <= 9) activeDiv.innerText += e.target.innerText;
 }
 
@@ -114,3 +114,9 @@ function operatorPresent() {
   || inactiveDiv.innerText.includes("÷"))
 }
 
+const point = document.getElementById('point')
+function appendPoint() {
+  if(activeDiv.innerText.includes('.')) return;
+  activeDiv.innerText += '.'
+}
+point.addEventListener('click', appendPoint)
