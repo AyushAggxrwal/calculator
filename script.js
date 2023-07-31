@@ -50,7 +50,7 @@ function del() {
 }
 
 function appendNum (e) {
-  if(parseFloat(activeDiv.innerText) === 0) clear(activeDiv);
+  if(parseFloat(activeDiv.innerText) === 0 && !activeDiv.innerText.includes('.')) clear(activeDiv);
   if(activeDiv.innerText.length <= 9) activeDiv.innerText += e.target.innerText;
 }
 
