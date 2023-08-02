@@ -121,3 +121,12 @@ function appendPoint() {
   activeDiv.innerText += '.'
 }
 point.addEventListener('click', appendPoint)
+
+const percent = document.getElementById("percent")
+percent.addEventListener('click', findPercentage)
+
+function findPercentage() {
+  activeDiv.innerText /= 100;
+  if(currentOperator == '-') activeDiv.innerText = (activeDiv.innerText * firstOperand);
+  if(currentOperator == '+') activeDiv.innerText = (activeDiv.innerText * firstOperand);
+}
