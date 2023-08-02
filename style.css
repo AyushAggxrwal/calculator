@@ -168,12 +168,10 @@ body {
   overflow: hidden;
 }
 .inactive-area {
-  width: 100%;
+  width: 311px;
   height: 1.5em;
-  font-size: 32px;
-  display: flex;
-  align-items: flex-end;
-  justify-content: flex-end;
+  font-size: 24px;
+  text-align: end;
   overflow: hidden;
 }
 
