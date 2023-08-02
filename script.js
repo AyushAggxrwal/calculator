@@ -10,6 +10,11 @@ const inactiveDiv = document.querySelector('.inactive-area');
 const deleteButton = document.querySelector('#delete')
 const equalsButton = document.querySelector("#equals-button")
 activeDiv.innerText = 0;
+const percent = document.getElementById("percent")
+const point = document.getElementById('point')
+const plusMinus = document.getElementById("plus-minus")
+
+
 
 const OPERATORS = [
   {symbol: '+', key: "+", operation: add},
@@ -18,9 +23,31 @@ const OPERATORS = [
   {symbol: '÷', key: "/", operation: divide},
 ]
 
+function add() {
+  return firstOperand + secondOperand;
+}
+function subtract() {
+  return firstOperand - secondOperand;
+}
+function multiply() {
+  return firstOperand * secondOperand;
+}
+function divide() {
+  if(secondOperand === 0) {
+    return 'Error';
+  }
+ return firstOperand / secondOperand; 
+}
+
+
 numbers.forEach(number => {
   number.addEventListener('mousedown', appendNum)
 });
+function appendNum (e) {
+  if(parseFloat(activeDiv.innerText) === 0 && !activeDiv.innerText.includes('.')) clear(activeDiv);
+  if(activeDiv.innerText.length < 9) activeDiv.innerText += e.target.innerText;
+}
+
 
 operators.forEach(operator => {
   operator.addEventListener('mousedown', e => {
@@ -34,32 +61,34 @@ operators.forEach(operator => {
   })
 });
 
+function operatorPresent() {
+  return (inactiveDiv.innerText.includes('+')
+  || inactiveDiv.innerText.includes('-')
+  || inactiveDiv.innerText.includes("✕")
+  || inactiveDiv.innerText.includes("÷"))
+}
+
+
 clearButton.addEventListener('click', () => { 
   clear(inactiveDiv);
   clear(activeDiv);
 })
-
 function clear(div) {
   div.innerText = '';
 }
 
-deleteButton.addEventListener('mousedown', del)
 
+deleteButton.addEventListener('mousedown', del)
 function del() {
   activeDiv.innerText = activeDiv.innerText.slice(0, -1);
 }
 
-function appendNum (e) {
-  if(parseFloat(activeDiv.innerText) === 0 && !activeDiv.innerText.includes('.')) clear(activeDiv);
-  if(activeDiv.innerText.length <= 9) activeDiv.innerText += e.target.innerText;
-}
-
-equalsButton.addEventListener('click', evalResult)
 
 function findOperator (op) {
   return OPERATORS.find(operator => operator.symbol === op);
 }
 
+equalsButton.addEventListener('click', evalResult)
 function evalResult() {
   if(activeDiv.innerText == undefined || isNaN(parseFloat(activeDiv.innerText))){
     activeDiv.innerText = firstOperand;
@@ -73,60 +102,32 @@ function evalResult() {
     firstOperand = result;
   }
   currentOperator = undefined;
+
 }
 
-const plusMinus = document.getElementById("plus-minus")
-plusMinus.addEventListener('click', additiveInverse)
 
+plusMinus.addEventListener('click', additiveInverse)
 function additiveInverse() {
-  let target = activeDiv.innerText;
-  if (target != 0) {
-    target *=  -1;
-    activeDiv.innerText = target;
+  let targetNum = activeDiv.innerText;
+  if (targetNum != 0) {
+    targetNum *=  -1;
+    activeDiv.innerText = targetNum;
   }
 } 
 
 
-
-function add() {
-  return firstOperand + secondOperand;
-}
-
-function subtract() {
-  return firstOperand - secondOperand;
-}
-
-function multiply() {
-  return firstOperand * secondOperand;
-}
-
-function divide() {
-  if(secondOperand === 0) {
-    return 'Error';
-  }
- return firstOperand / secondOperand; 
-}
-
-function operatorPresent() {
-  return (inactiveDiv.innerText.includes('+')
-  || inactiveDiv.innerText.includes('-')
-  || inactiveDiv.innerText.includes("✕")
-  || inactiveDiv.innerText.includes("÷"))
-}
-
-const point = document.getElementById('point')
+point.addEventListener('click', appendPoint)
 function appendPoint() {
   if(activeDiv.innerText.includes('.')) return;
   if(activeDiv.innerText == '') activeDiv.innerText = 0;
   activeDiv.innerText += '.'
 }
-point.addEventListener('click', appendPoint)
 
-const percent = document.getElementById("percent")
+
 percent.addEventListener('click', findPercentage)
-
 function findPercentage() {
   activeDiv.innerText /= 100;
   if(currentOperator == '-') activeDiv.innerText = (activeDiv.innerText * firstOperand);
   if(currentOperator == '+') activeDiv.innerText = (activeDiv.innerText * firstOperand);
 }
+
