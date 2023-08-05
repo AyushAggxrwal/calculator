@@ -50,7 +50,7 @@ function appendNum (e) {
 
 
 operators.forEach(operator => {
-  operator.addEventListener('mousedown', e => {
+  operator.addEventListener('mousedown', function operatorClicked() {
     if(activeDiv.innerText != undefined && !isNaN(parseFloat(activeDiv.innerText))) {
       if(operatorPresent()) evalResult();
       firstOperand = parseFloat(activeDiv.innerText);
@@ -60,6 +60,16 @@ operators.forEach(operator => {
     }
   })
 });
+
+// function operatorClicked() {
+//   if (activeDiv.innerText != undefined && !isNaN(parseFloat(activeDiv.innerText))) {
+//     if (operatorPresent()) evalResult();
+//     firstOperand = parseFloat(activeDiv.innerText);
+//     currentOperator = operator.innerText;
+//     inactiveDiv.innerText = activeDiv.innerText + currentOperator;
+//     clear(activeDiv)
+//   }
+// }
 
 function operatorPresent() {
   return (inactiveDiv.innerText.includes('+')
@@ -88,6 +98,7 @@ function findOperator (op) {
   return OPERATORS.find(operator => operator.symbol === op);
 }
 
+
 equalsButton.addEventListener('click', evalResult)
 function evalResult() {
   if(activeDiv.innerText == undefined || isNaN(parseFloat(activeDiv.innerText))){
@@ -113,6 +124,7 @@ function convertToScientificNotation() {
 the first digit and the digits afterwards are separated by period '.'*/
   }
 }
+
 
 plusMinus.addEventListener('click', additiveInverse)
 function additiveInverse() {
