@@ -119,7 +119,7 @@ function convertToScientificNotation() {
   if (activeDiv.innerText.length > 9) {
     const afterDecimal = activeDiv.innerText.length - 1;
     activeDiv.innerText = (activeDiv.innerText / (10 ** afterDecimal));
-    activeDiv.innerText = `${activeDiv.innerText.slice(0, 6)}E+${afterDecimal}`;
+    activeDiv.innerText = `${activeDiv.innerText.slice(0, 6)}e+${afterDecimal}`;
 /* afterDecimal gives the number of digits after the first digit so that 
 the first digit and the digits afterwards are separated by period '.'*/
   }
